@@ -1,0 +1,472 @@
+.dashboardContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* ── HERO BANNER & TOP STATS ── */
+.heroBanner {
+  background: linear-gradient(135deg, #3b5bdb 0%, #4c6ef5 100%);
+  padding: 32px 32px 40px;
+  border-radius: var(--radius-lg, 16px);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  color: white;
+  box-shadow: 0 10px 25px rgba(59, 91, 219, 0.2);
+}
+
+.heroHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.greetingText {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.bannerSubtitle {
+  font-size: 14px;
+  opacity: 0.85;
+  margin: 0;
+  font-weight: 500;
+}
+
+.topStatsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.topStatCard {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.topStatCard:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.topStatIcon {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.topStatValue {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.topStatLabel {
+  font-size: 12px;
+  opacity: 0.8;
+  font-weight: 500;
+}
+
+/* ── MIDDLE CARDS ROW (3 Columns) ── */
+.middleCardsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.cardBox {
+  background: var(--surface);
+  border: 1px solid var(--border-dash, #e5e7eb);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cardIcon {
+  font-size: 16px;
+  color: var(--accent);
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Today's Focus Specifics */
+.focusMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.focusTag {
+  background: #f3f0ff;
+  color: var(--accent);
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.focusTime {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.startSessionBtn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 24px;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  width: fit-content;
+  transition: background 0.2s ease, transform 0.2s ease;
+  margin-top: auto;
+}
+
+.startSessionBtn:hover {
+  background: #4c6ef5;
+  transform: translateY(-1px);
+}
+
+/* Active Roadmap Specifics */
+.roadmapSubtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: -8px 0 4px 0;
+}
+
+.progressContainer {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-dash, #f3f4f6);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 99px;
+  transition: width 0.5s ease;
+}
+
+.continueLink {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+.continueLink:hover {
+  text-decoration: underline;
+}
+
+/* Recent Achievements Specifics */
+.achievementsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.achievementItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.achievementIcon {
+  font-size: 20px;
+}
+
+.achievementText {
+  display: flex;
+  flex-direction: column;
+}
+
+.achievementName {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.achievementRarity {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: capitalize;
+}
+
+.viewAllLink {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  text-align: right;
+  cursor: pointer;
+  margin-top: auto;
+  align-self: flex-end;
+}
+
+.viewAllLink:hover {
+  text-decoration: underline;
+}
+
+/* ── CHART SECTION ── */
+.chartContainer {
+  background: var(--surface);
+  border: 1px solid var(--border-dash, #e5e7eb);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* ── BOTTOM GRID ── */
+.bottomGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.sectionBox {
+  background: var(--surface);
+  border: 1px solid var(--border-dash, #e5e7eb);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Quick Actions */
+.quickActionsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.actionCard {
+  background: #f8f9fa;
+  border: 1px solid #f3f4f6;
+  border-radius: 12px;
+  padding: 20px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.actionCard:hover {
+  background: #f3f0ff;
+  transform: translateY(-2px);
+  border-color: #e5dbff;
+}
+
+.actionCardIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.actionCardText {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+/* Task List */
+.todaysTasksList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.taskRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #fcfcfd;
+  border: 1px solid #f3f4f6;
+  border-radius: 8px;
+}
+
+.taskRowLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.taskDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.taskDot.red { background: #fa5252; }
+.taskDot.orange { background: #fd7e14; }
+.taskDot.yellow { background: #fcc419; }
+.taskDot.purple { background: #7950f2; }
+.taskDot.green { background: #40c057; }
+
+.taskTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.taskDuration {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Peer Activity */
+.peerList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.peerRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.peerAvatarBox {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.activeDotSmall {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #40c057;
+  border: 2px solid white;
+}
+
+.peerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.peerName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.peerActionText {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.viewAllPeers {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  text-align: center;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+.viewAllPeers:hover {
+  text-decoration: underline;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .topStatsGrid, .middleCardsRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .topStatsGrid, .middleCardsRow, .bottomGrid {
+    grid-template-columns: 1fr;
+  }
+  .quickActionsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -1,0 +1,326 @@
+.container {
+  display: flex;
+  height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background-color: #F3F4F6;
+  overflow: hidden;
+}
+
+/* ============== Left Branding Section ================= */
+.leftSide {
+  background-color: var(--accent);
+  width: 45%;
+  padding: 80px 60px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logoMark {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.logoText {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.heroText {
+  margin-top: -40px;
+}
+
+.heroTitle {
+  font-size: clamp(32px, 4vw, 44px);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.heroDesc {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  max-width: 380px;
+}
+
+.heroStats {
+  display: flex;
+  gap: 40px;
+}
+
+.statItem h3 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.statItem p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.heroSpacer {
+  height: 40px;
+}
+
+/* ============== Right Form Section ================= */
+.rightSide {
+  width: 55%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.authCard {
+  width: 100%;
+  max-width: 480px;
+  background-color: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.errorAlert {
+  padding: 12px;
+  background-color: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  border-radius: 8px;
+  font-size: 13.5px;
+  margin-bottom: 20px;
+}
+
+.authCard h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.cardSubtitle {
+  font-size: 14px;
+  color: var(--text-gray);
+  margin-bottom: 30px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.forgotLink {
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.forgotLink:hover {
+  text-decoration: underline;
+}
+
+.formGroup input {
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.15s;
+}
+
+.formGroup input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.passwordInputWrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.passwordInputWrap input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.eyeToggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  user-select: none;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  margin-top: 10px;
+}
+
+.submitBtn:hover {
+  background-color: #4338CA;
+}
+
+.submitBtn:disabled {
+  background-color: #9CA3AF;
+  cursor: not-allowed;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 24px 0;
+  color: var(--text-gray);
+  font-size: 13px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.divider:not(:empty)::before {
+  margin-right: .5em;
+}
+
+.divider:not(:empty)::after {
+  margin-left: .5em;
+}
+
+.socialBtns {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.socialBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: white;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.socialBtn:hover {
+  background-color: #F9FAFB;
+}
+
+.socialBtn img {
+  width: 20px;
+  height: 20px;
+}
+
+.switchText {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-gray);
+}
+
+.switchLink {
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.switchLink:hover {
+  text-decoration: underline;
+}
+
+/* ============== Responsive ================= */
+@media (max-width: 1024px) {
+  .leftSide {
+    width: 40%;
+    padding: 60px 40px;
+  }
+  .rightSide {
+    width: 60%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  .leftSide {
+    width: 100%;
+    height: 35vh;
+    padding: 30px;
+    justify-content: center;
+    gap: 20px;
+  }
+  .heroText {
+    margin-top: 0;
+  }
+  .heroTitle {
+    font-size: 26px;
+    margin-bottom: 8px;
+  }
+  .heroDesc {
+    font-size: 14px;
+  }
+  .heroStats {
+    display: none;
+  }
+  .rightSide {
+    width: 100%;
+    height: 65vh;
+    padding: 20px;
+    align-items: flex-start;
+  }
+  .authCard {
+    padding: 24px;
+    box-shadow: none;
+  }
+}
