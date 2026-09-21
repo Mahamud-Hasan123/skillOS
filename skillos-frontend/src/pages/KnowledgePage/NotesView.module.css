@@ -1,0 +1,207 @@
+.container {
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+/* New Note Card */
+.newNoteCard {
+  border: 2px dashed #cbd5e1;
+  border-radius: 16px;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.newNoteCard:hover {
+  background: #f8fafc;
+  border-color: #6366f1;
+}
+
+.newNoteContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: #6366f1;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.plusIcon {
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1;
+}
+
+/* Note Card */
+.noteCard {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0,0,0,0.03);
+  border-top: 5px solid #4f46e5;
+  transition: all 0.2s ease;
+}
+
+.noteCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.noteIconBox {
+  background: #4f46e5;
+  color: white;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.noteIconBox svg {
+  width: 24px;
+  height: 24px;
+}
+
+.editBtn {
+  background: transparent;
+  border: none;
+  color: #4b5563;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.editBtn:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.editBtn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.deleteBtn {
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.deleteBtn:hover {
+  background: #fee2e2;
+}
+
+.deleteBtn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.noteContentArea {
+  flex-grow: 1;
+}
+
+.noteSnippet {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #374151;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.cardFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.footerRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+.footerIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.footerValue {
+  color: #111827;
+  font-weight: 500;
+}
+
+.resourceLink {
+  color: #8b5cf6;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.resourceLink:hover {
+  text-decoration: underline;
+}
+
+.externalIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.loadingBox {
+  padding: 60px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.errorBox {
+  padding: 20px;
+  background: #fef2f2;
+  color: #dc2626;
+  border-radius: 8px;
+  text-align: center;
+}
