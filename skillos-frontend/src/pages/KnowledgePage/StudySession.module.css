@@ -1,0 +1,283 @@
+.container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: #6b7280;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.closeBtn:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.closeBtn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.progressCounter {
+  font-weight: 700;
+  color: #480082;
+  background: #f3e8ff;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 0.95rem;
+}
+
+/* Flashcard Flip Animation */
+.flashcard {
+  width: 100%;
+  height: 450px;
+  perspective: 1000px;
+  margin-bottom: 40px;
+}
+
+.cardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flipped .cardInner {
+  transform: rotateY(180deg);
+}
+
+.cardFront, .cardBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e5e7eb;
+}
+
+.cardBack {
+  transform: rotateY(180deg);
+  background: #fafaf9;
+}
+
+/* Card Meta (Top Info) */
+.cardMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.badgeSkill, .badgeAnswer, .badgeDifficulty {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.badgeSkill { background: #e0e7ff; color: #4338ca; }
+.badgeAnswer { background: #dcfce7; color: #15803d; }
+.badgeDifficulty { background: #f3f4f6; color: #6b7280; }
+
+.masteryWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.masteryText {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.masteryBar {
+  width: 100px;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.masteryFill {
+  height: 100%;
+  background: #10b981;
+  transition: width 0.5s ease;
+}
+
+/* Content */
+.questionText {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.questionText h3 {
+  font-size: 2rem;
+  color: #111827;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.answerText {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+  text-align: left;
+}
+
+.answerText p {
+  font-size: 1.25rem;
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Buttons */
+.flipBtn {
+  width: 100%;
+  padding: 16px;
+  background: #f3f4f6;
+  color: #4b5563;
+  border: 2px dashed #d1d5db;
+  border-radius: 16px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: auto;
+}
+
+.flipBtn:hover {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+/* Review Section */
+.reviewSection {
+  margin-top: auto;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 24px;
+}
+
+.reviewPrompt {
+  margin: 0 0 16px 0;
+  color: #6b7280;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.reviewButtons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.reviewButtons button {
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  color: white;
+}
+
+.reviewButtons button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnForgot { background: #ef4444; }
+.btnForgot:hover:not(:disabled) { background: #dc2626; transform: translateY(-2px); }
+
+.btnHard { background: #f59e0b; }
+.btnHard:hover:not(:disabled) { background: #d97706; transform: translateY(-2px); }
+
+.btnMedium { background: #3b82f6; }
+.btnMedium:hover:not(:disabled) { background: #2563eb; transform: translateY(-2px); }
+
+.btnEasy { background: #10b981; }
+.btnEasy:hover:not(:disabled) { background: #059669; transform: translateY(-2px); }
+
+/* States */
+.loadingText {
+  color: #6b7280;
+  padding: 60px;
+  font-size: 1.1rem;
+}
+
+.errorText {
+  color: #dc2626;
+  background: #fef2f2;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.emptyState, .summaryBox {
+  text-align: center;
+  background: white;
+  padding: 60px 40px;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.summaryBox h2 { color: #10b981; margin: 0 0 16px 0; font-size: 2rem;}
+.emptyState h2 { color: #111827; margin: 0 0 16px 0; font-size: 1.75rem;}
+
+.iconBox { font-size: 64px; margin-bottom: 24px; }
+
+.backBtn {
+  margin-top: 32px;
+  padding: 12px 24px;
+  background: #f3f4f6;
+  color: #374151;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.backBtn:hover {
+  background: #e5e7eb;
+}
