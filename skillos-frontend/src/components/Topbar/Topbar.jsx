@@ -1,0 +1,88 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
+import { logoutUser } from '../../services/authService';
+import styles from './Topbar.module.css';
+
+export default function Topbar({ onToggleSidebar }) {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+    } catch (err) {
+      console.error('Logout error:', err);
+    } finally {
+      logout();
+      navigate('/auth');
+    }
+  };
+
+  const toggleTheme = () => {
+    const newTheme = isDarkTheme ? 'light' : 'dark';
+    setIsDarkTheme(!isDarkTheme);
+    if (!isDarkTheme) {
+      document.body.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+    }
+  };
+
+  return (
+    <header className={styles.topbar}>
+      <button 
+        className={styles.mobileToggle} 
+        onClick={onToggleSidebar}
+        aria-label="Toggle Sidebar"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div className={styles.searchWrap}>
+        <div className={styles.searchIcon}>
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+        </div>
+        <input type="text" placeholder="Search SkillOS..." />
+      </div>
+
+      <div className={styles.topbarActions}>
+        <button className={styles.iconBtn} title="Toggle Dark mode" onClick={toggleTheme}>
+          {isDarkTheme ? (
+            // Sun icon for switching to light
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+          ) : (
+            // Moon icon for switching to dark
+            <svg viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          )}
+        </button>
+
+        <button className={styles.logoutBtn} onClick={handleLogout} title="Log out">
+          <svg viewBox="0 0 24 24">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+        </button>
+      </div>
+    </header>
+  );
+}
