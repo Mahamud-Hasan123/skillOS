@@ -1,16 +1,81 @@
-# React + Vite
+# SkillOS — Frontend Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+The web client for **SkillOS**, an AI-driven learning and skill-tracking platform. Built with React 19 and Vite, providing a fast, responsive interface for learning roadmaps, study sessions, spaced-repetition flashcards, and knowledge notes.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Tech Stack
 
-## React Compiler
+- **Framework:** React 19
+- **Build Tool & Dev Server:** Vite 8
+- **Routing:** React Router v7
+- **HTTP Client:** Axios (with request/response interceptors & token handling)
+- **Data Visualization:** Chart.js & react-chartjs-2
+- **Styling:** CSS Modules with responsive variables
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the Oxlint configuration
+## 📁 Project Architecture
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+```
+skillos-frontend/
+├── public/                 # Static assets
+├── src/
+│   ├── assets/             # Images, SVGs, and graphics
+│   ├── components/         # Reusable UI components
+│   │   ├── ErrorBoundary   # Graceful UI failure boundary
+│   │   ├── Footer          # Global footer
+│   │   ├── Navbar          # Landing navigation bar
+│   │   ├── Sidebar         # Responsive, collapsible application sidebar
+│   │   └── Topbar          # Application top navigation bar
+│   ├── context/            # React context providers (AuthContext)
+│   ├── hooks/              # Custom hooks (useAuth)
+│   ├── layouts/            # Page layouts (DashboardLayout)
+│   ├── pages/              # Primary route views
+│   │   ├── AuthPage        # Login and registration view
+│   │   ├── DashboardPage   # Student command center & goal overview
+│   │   ├── KnowledgePage   # Knowledge vault (notes & flashcards study)
+│   │   ├── LandingPage     # Public introduction & features
+│   │   └── RoadmapListPage # Learning path timelines & verification
+│   ├── routes/             # AppRouter & ProtectedRoute guards
+│   ├── services/           # Backend API integration layer
+│   │   ├── api.js          # Base Axios instance with auth interceptors
+│   │   ├── authService.js  # Authentication endpoints
+│   │   └── dashboardService.js # Dashboard data aggregation
+│   ├── App.jsx             # Root application component
+│   ├── index.css           # Global theme variables & typography
+│   └── main.jsx            # Application entry point
+├── package.json
+└── vite.config.js          # Vite configuration & backend proxy rules
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Node.js**: v18.0.0 or higher
+- **npm**: v9.0.0 or higher
+
+### Installation
+
+```bash
+cd skillos-frontend
+npm install
+```
+
+### Available Scripts
+
+| Command | Description |
+| :--- | :--- |
+| `npm run dev` | Starts the local Vite development server with HMR at `http://localhost:5173/` |
+| `npm run build` | Bundles the application for production into `dist/` |
+| `npm run preview` | Locally serves the production build |
+| `npm run lint` | Runs ESLint across all source files |
+
+---
+
+## 🔌 API Integration
+
+The frontend connects to the Spring Boot REST backend (`http://localhost:8080`). During local development, API requests directed to `/api/v1` and WebSocket connections at `/ws` are proxied via `vite.config.js`.
