@@ -5,6 +5,7 @@ import AuthPage from '../pages/AuthPage/AuthPage';
 import DashboardPage from '../pages/DashboardPage/DashboardPage';
 import RoadmapListPage from '../pages/RoadmapListPage/RoadmapListPage';
 import KnowledgePage from '../pages/KnowledgePage/KnowledgePage';
+import PlannerPage from '../pages/PlannerPage/PlannerPage';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import ProtectedRoute from './ProtectedRoute';
 
@@ -26,8 +27,12 @@ export default function AppRouter() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-        
         {/* New Sidebar Routes */}
+        <Route path="/planner" element={
+          <ErrorBoundary>
+            <ProtectedRoute><PlannerPage /></ProtectedRoute>
+          </ErrorBoundary>
+        } />
         <Route path="/roadmaps" element={
           <ErrorBoundary>
             <ProtectedRoute><RoadmapListPage /></ProtectedRoute>

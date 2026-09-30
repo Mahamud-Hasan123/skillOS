@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  /* Common variables */
+  --accent: #4f46e5;
+  --accent2: #6366f1;
+  --accent-light: #eef2ff;
+  --accent-mid: #818cf8;
+  --dark: #0f0f1a;
+  --dark2: #1a1b2e;
+  --text: #1a1b2e;
+  --text2: #4b5470;
+  --muted: #8b90ab;
+  --border: #e4e6f0;
+  --surface: #fff;
+  --bg: #f8f8fc;
+  
+  /* Additional dashboard and sub-page variables */
+  --bg-dash: #f5f6fa;
+  --border-dash: #e8e9f0;
+  --text-primary: #1a1b2e;
+  --text-secondary: #6b6f8a;
+  --text-muted: #9ea3bc;
+  --green: #10b981;
+  --green-light: #ecfdf5;
+  --amber: #f59e0b;
+  --amber-light: #fffbeb;
+  --red: #ef4444;
+  --red-light: #fef2f2;
+  --sidebar-w: 220px;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Dark Theme Overrides */
+body.dark-theme {
+  --surface: #1e1e2d;
+  --bg: #151521;
+  --bg-dash: #151521;
+  --border: #2b2b40;
+  --border-dash: #2b2b40;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  color: var(--text-primary);
+  background: var(--bg);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  outline: none;
+}
