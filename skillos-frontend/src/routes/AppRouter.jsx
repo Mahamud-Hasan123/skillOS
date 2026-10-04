@@ -6,6 +6,7 @@ import DashboardPage from '../pages/DashboardPage/DashboardPage';
 import RoadmapListPage from '../pages/RoadmapListPage/RoadmapListPage';
 import KnowledgePage from '../pages/KnowledgePage/KnowledgePage';
 import PlannerPage from '../pages/PlannerPage/PlannerPage';
+import ProjectsPage from '../pages/ProjectsPage/ProjectsPage';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import ProtectedRoute from './ProtectedRoute';
 
@@ -36,6 +37,11 @@ export default function AppRouter() {
         <Route path="/roadmaps" element={
           <ErrorBoundary>
             <ProtectedRoute><RoadmapListPage /></ProtectedRoute>
+          </ErrorBoundary>
+        } />
+        <Route path="/projects" element={
+          <ErrorBoundary>
+            <ProtectedRoute><ProjectsPage /></ProtectedRoute>
           </ErrorBoundary>
         } />
 

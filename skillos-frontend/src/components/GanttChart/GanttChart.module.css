@@ -1,0 +1,136 @@
+.ganttContainer {
+  margin-top: 48px;
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+  overflow-x: auto;
+}
+
+.ganttHeader {
+  margin-bottom: 24px;
+  font-size: 1.25rem;
+  color: #111827;
+}
+
+.ganttGrid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  border: 1px solid #f3f4f6;
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 800px;
+}
+
+.yAxis {
+  background: #f9fafb;
+  border-right: 1px solid #e5e7eb;
+  z-index: 2;
+}
+
+.yAxisHeader {
+  height: 48px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: #6b7280;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.yAxisRow {
+  height: 48px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #f3f4f6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.yAxisRow:last-child {
+  border-bottom: none;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.timelineHeader {
+  height: 48px;
+  display: flex;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.dayCell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: #9ca3af;
+  border-right: 1px solid #f3f4f6;
+  min-width: 30px;
+}
+
+.dayCell:last-child {
+  border-right: none;
+}
+
+.timelineRow {
+  height: 48px;
+  display: flex;
+  border-bottom: 1px solid #f3f4f6;
+  position: relative;
+}
+
+.timelineRow:last-child {
+  border-bottom: none;
+}
+
+.gridLine {
+  flex: 1;
+  border-right: 1px solid #f3f4f6;
+  height: 100%;
+}
+
+.gridLine:last-child {
+  border-right: none;
+}
+
+.ganttBar {
+  position: absolute;
+  top: 8px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.blueBar { background: #3b82f6; }
+.cyanBar { background: #06b6d4; }
+.greenBar { background: #10b981; }
+.orangeBar { background: #f59e0b; }
+.redBar { background: #ef4444; }
+
+.emptyState {
+  padding: 40px;
+  text-align: center;
+  color: #6b7280;
+}

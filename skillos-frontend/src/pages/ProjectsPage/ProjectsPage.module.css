@@ -1,0 +1,248 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.headerLeft h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #111827;
+}
+
+.headerLeft p {
+  margin: 4px 0 0;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.newProjectBtn {
+  background: #480082;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.newProjectBtn:hover {
+  background: #330099;
+  transform: translateY(-1px);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  position: relative;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+}
+
+.cardTopBorder {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 6px;
+  border-radius: 0 0 6px 6px;
+}
+
+.blueBorder { background: #3b82f6; }
+.cyanBorder { background: #06b6d4; }
+.greenBorder { background: #10b981; }
+.orangeBorder { background: #f59e0b; }
+.redBorder { background: #ef4444; }
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+.cardHeader h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #111827;
+}
+
+.menuBtn {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.menuBtn:hover {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.subtitle {
+  margin: 0 0 24px;
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+.progressTrack {
+  height: 6px;
+  background: #f3f4f6;
+  border-radius: 3px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.blueFill { background: #3b82f6; }
+.cyanFill { background: #06b6d4; }
+.greenFill { background: #10b981; }
+.orangeFill { background: #f59e0b; }
+.redFill { background: #ef4444; }
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #6b7280;
+  font-size: 0.85rem;
+  margin-top: auto;
+}
+
+.cardFooter span {
+  font-weight: 500;
+}
+
+.newProjectCard {
+  background: transparent;
+  border: 2px dashed #d1d5db;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  cursor: pointer;
+  color: #480082;
+  transition: all 0.2s;
+}
+
+.newProjectCard:hover {
+  border-color: #480082;
+  background: rgba(72, 0, 130, 0.02);
+}
+
+.newProjectIcon {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.newProjectText {
+  font-weight: 600;
+}
+
+.activeMenu {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+  padding: 4px;
+  z-index: 10;
+}
+
+.activeMenuItem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  color: #374151;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.activeMenuItem:hover {
+  background: #f3f4f6;
+}
+
+.activeBadge {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  background: #10b981;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.viewToggleContainer {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 8px;
+}
+
+.viewToggleBtn {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.viewToggleBtn:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.viewToggleBtn.activeView {
+  background: #480082;
+  color: white;
+}
