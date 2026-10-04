@@ -1,0 +1,114 @@
+.boardContainer {
+  margin-top: 48px;
+  background: transparent;
+}
+
+.boardHeader {
+  margin-bottom: 24px;
+  font-size: 1.25rem;
+  color: #111827;
+}
+
+.columnsWrapper {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding-bottom: 16px;
+}
+
+.column {
+  background: white;
+  border-radius: 16px;
+  width: 280px;
+  min-width: 280px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  transition: background 0.2s;
+}
+
+.dragOver {
+  background: #f9fafb;
+  border: 1px dashed #480082;
+}
+
+.columnHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.columnTitle {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #111827;
+}
+
+.cardCount {
+  background: #f3f4f6;
+  color: #6b7280;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.cardsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 100px;
+}
+
+.kanbanCard {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 16px;
+  cursor: grab;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.kanbanCard:active {
+  cursor: grabbing;
+}
+
+.kanbanCard:hover {
+  background: white;
+  border-color: #e5e7eb;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.isDragging {
+  opacity: 0.5;
+  background: #e5e7eb;
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+}
+
+.cardDot.red { background: #ef4444; }
+.cardDot.green { background: #10b981; }
+
+.cardTitle {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #374151;
+  font-weight: 500;
+  line-height: 1.4;
+}
