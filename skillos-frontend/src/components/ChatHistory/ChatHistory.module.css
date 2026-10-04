@@ -1,0 +1,132 @@
+.historyPanel {
+  width: 260px;
+  background: var(--surface);
+  border-right: 1px solid var(--border-dash);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  flex-shrink: 0;
+}
+
+.header {
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-dash);
+  flex-shrink: 0;
+}
+
+.newChatBtn {
+  width: 100%;
+  padding: 11px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.15s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.newChatBtn:hover {
+  background: #4338ca;
+}
+
+.btnIcon {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.searchWrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-dash);
+  border: 1px solid var(--border-dash);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+}
+
+.searchIcon {
+  width: 14px;
+  height: 14px;
+  stroke: var(--text-muted);
+  fill: none;
+  stroke-width: 2.2;
+}
+
+.searchWrap input {
+  border: none;
+  background: none;
+  font-size: 12.5px;
+  color: var(--text-primary);
+  width: 100%;
+}
+
+.searchWrap input::placeholder {
+  color: var(--text-muted);
+}
+
+.historyList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.historyItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.historyItem:hover {
+  background: var(--bg-dash);
+}
+
+.activeItem {
+  background: var(--accent-light);
+}
+
+.itemIcon {
+  font-size: 16px;
+}
+
+.itemContent {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.itemTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemMeta {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+@media (max-width: 992px) {
+  .historyPanel {
+    display: none; /* Hide history panel on tablets and below to save space */
+  }
+}

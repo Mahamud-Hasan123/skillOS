@@ -1,0 +1,332 @@
+# Adaptive Task Planner — Workflow, Approach & Cautions
+
+The task planner’s main workflow is:
+
+Collect tasks and commitments → Generate daily task list → Schedule tasks → Track execution → Adapt the schedule → Learn from actual durations.
+
+It should use user-entered tasks and connected platforms as task sources, while the user’s routine defines when scheduling is possible. CSP checks scheduling constraints, and A* can search task sequences if its state, actions, and cost function are clearly defined.
+
+SkillOS.pptx
+
+## 1. End-to-end workflow
+Diagram options
+//for the end to end diagram check the mermaid-diagram.png file
+## 2. Feature-wise approach
+
+### 1. Collect tasks from connected platforms
+
+Sources: Google Calendar, GitHub, email, learning roadmap, project tasks, and other approved sources.
+
+Approach
+
+* Connect services through their APIs and user authorization.
+
+* Retrieve relevant events, assignments, issues, or deadlines.
+
+* Convert them into a common task format: title, due date, estimated duration, source, and status.
+
+* Let the user review extracted tasks before adding them to the planner.
+
+Cautions
+
+* API permissions, rate limits, and expired access tokens.
+
+* Emails and events may contain information that is not actually a task.
+
+* Avoid duplicate tasks from multiple sources.
+
+* Do not collect more personal data than the feature needs.
+
+### 2. User-added tasks
+
+Approach
+
+* Allow users to add tasks manually.
+
+* Capture title, duration, priority, deadline, category, and optional dependencies.
+
+* Save tasks in MySQL through Spring Boot APIs.
+
+Cautions
+
+* Validate missing or invalid durations and deadlines.
+
+* Allow users to edit AI-generated or imported tasks.
+
+* Distinguish recurring tasks from one-time tasks.
+
+### 3. User routine: availability and fixed events
+
+Approach
+
+* User defines available time windows, such as 9 AM–1 PM and 7 PM–10 PM.
+
+* User adds fixed events such as classes, meetings, or appointments.
+
+* Backend creates the day's usable time intervals.
+
+Cautions
+
+* Availability means a task may be scheduled; a fixed event occupies time.
+
+* Handle breaks, sleep time, time zones, and overlapping events.
+
+* Do not schedule tasks outside the user's available windows.
+
+### 4. Daily task generation
+
+Approach
+
+* Collect tasks from the roadmap, user input, projects, and connected sources.
+
+* Select tasks due today, overdue, or appropriate to work on today.
+
+* Check completion status and dependencies.
+
+* Deduplicate and create a unified daily task list.
+
+Cautions
+
+* Do not automatically include every task in the database.
+
+* Identify tasks that are blocked or depend on unfinished work.
+
+* If too many tasks exist for the available time, flag the overload rather than silently dropping tasks.
+
+### 5. Adaptive daily planner
+
+Approach
+
+1. Receive the daily task list and routine.
+
+2. Define scheduling variables, time-slot domains, and constraints.
+
+3. Use CSP to check feasible task assignments.
+
+4. Use A* to search task sequences, if implemented as a separate search step.
+
+5. Generate a schedule and show it as a timeline.
+
+CSP handles
+
+* No task overlap
+
+* Available time and fixed events
+
+* Dependencies
+
+* Deadline constraints
+
+A* handles
+
+* Exploring possible task sequences
+
+* Comparing sequences using accumulated cost and estimated remaining cost
+
+* Finding a sequence according to the planner's defined objective
+
+Cautions
+
+* If the constraints cannot all be satisfied, report the conflict and suggest which tasks may need to move.
+
+* Define the A* state, possible actions, goal condition, g(n)g(n)g(n), and h(n)h(n)h(n) clearly.
+
+* Don't claim A* guarantees the best schedule unless the search and heuristic conditions support that claim.
+
+### 6. Dynamic rescheduling
+
+Approach
+
+* Track when a task starts, finishes, or is skipped.
+
+* Compare actual progress with the schedule.
+
+* Update the current time and remaining task list.
+
+* Recheck constraints and generate a revised schedule.
+
+Example
+
+```
+Planned: Assignment — 2 hours
+Actual:  Assignment — 3 hours
+              ↓
+Update current time and remaining tasks
+              ↓
+CSP checks constraints
+              ↓
+A* searches a new task sequence
+              ↓
+Revised schedule
+```
+
+Cautions
+
+* Never reschedule completed tasks.
+
+* Preserve the original schedule and record revisions.
+
+* Do not move fixed events.
+
+* Tell the user when deadlines or available hours make the remaining plan infeasible.
+
+### 7. Estimated vs. actual duration tracking
+
+Approach
+
+* Store estimated duration when a task is planned.
+
+* Record actual duration when it is completed.
+
+* Compare the two values and show the difference.
+
+* Use accumulated history to adjust future estimates.
+
+MVP: Show comparisons and use a simple average or adjustment factor.
+
+Later enhancement: Train a prediction model after collecting enough reliable data.
+
+Cautions
+
+* Actual duration may include breaks or interruptions; decide how to record these.
+
+* Avoid changing future estimates based on one unusual task.
+
+* Keep user-adjusted estimates distinguishable from system-generated estimates.
+
+### 8. Progress dashboard and schedule history
+
+Approach Display:
+
+* Today's schedule and next task
+
+* Completed, remaining, and overdue tasks
+
+* Estimated versus actual duration
+
+* Daily progress
+
+* Schedule changes and reasons
+
+Store generated schedules and revisions so users can compare the original plan with the updated one.
+
+Caution: Keep progress indicators consistent with task status and schedule history.
+
+## 3. Algorithm and backend summary
+
+|
+Component
+
+|
+
+Role
+
+|
+| --- | --- |
+|
+
+Gemini API
+
+|
+
+Generates proposed learning roadmaps or project tasks
+
+|
+|
+
+Task collection
+
+|
+
+Retrieves and normalizes tasks from user input and connected sources
+
+|
+|
+
+CSP
+
+|
+
+Checks whether task assignments satisfy scheduling constraints
+
+|
+|
+
+A*
+
+|
+
+Searches task sequences using a defined cost and heuristic
+
+|
+|
+
+Dynamic replanning
+
+|
+
+Re-runs planning from the user's updated state
+
+|
+|
+
+Backend
+
+|
+
+Validates input, stores tasks and schedules, manages APIs and history
+
+|
+|
+
+MySQL
+
+|
+
+Stores users, tasks, routines, schedules, and execution history
+
+|
+
+Important: Gemini-generated tasks should be validated before they enter the planner. Gemini generates proposed content; it does not replace CSP or A*.
+
+## 4. Key cautions for the whole project
+
+* Scope: Build manual tasks, routine input, scheduling, and replanning first. Add integrations after the core works.
+
+* Privacy: Request only the permissions needed for connected platforms; protect tokens and never expose API keys in the frontend.
+
+* Feasibility: Clearly identify when there is insufficient time to complete all tasks.
+
+* Reliability: Validate imported and AI-generated data before saving or scheduling.
+
+* Algorithm clarity: Explain exactly what CSP checks and what A* searches.
+
+* Evaluation: Test no-overlap rules, dependencies, deadlines, overlong tasks, skipped tasks, and infeasible days.
+
+* User control: Let users edit tasks and accept or adjust revised schedules.
+
+## 5. Recommended MVP workflow
+
+For the first version, implement:
+
+1. User-added tasks
+
+2. User availability and fixed events
+
+3. Daily task generation
+
+4. CSP constraint checking
+
+5. A* task sequencing with a defined state and cost function
+
+6. Daily schedule display
+
+7. Task completion and actual-duration tracking
+
+8. Dynamic rescheduling
+
+9. Schedule history and progress summary
+
+Then add Google Calendar/GitHub/email integrations, Gemini roadmap generation, and project Gantt/Kanban features as extensions.
+
+This keeps the task planner as the core product while leaving room for the merged SkillOS features.

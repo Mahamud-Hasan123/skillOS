@@ -7,3 +7,6 @@ target/
 cp.txt
 .idea/
 .vscode/
+.properties
+application.properties
+*client_secret*.json
