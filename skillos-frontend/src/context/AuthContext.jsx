@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 import { getCurrentUser } from '../services/authService';
+import { connectWebSocket, disconnectWebSocket } from '../services/websocketService';
 
 export const AuthContext = createContext(null);
 
@@ -20,6 +21,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('skillos_token');
     localStorage.removeItem('skillos_user');
     setUser(null);
+    disconnectWebSocket();
   }, []);
 
   useEffect(() => {
@@ -29,6 +31,7 @@ export function AuthProvider({ children }) {
         .then((res) => {
           setUser(res.data);
           localStorage.setItem('skillos_user', JSON.stringify(res.data));
+          connectWebSocket();
         })
         .catch(() => {
           logout();

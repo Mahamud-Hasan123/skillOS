@@ -65,7 +65,7 @@ export default function AuthPage() {
       }
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.message || err.response?.data?.error || 'Authentication failed. Please try again.');
+      setError(err.response?.data?.error?.message || err.response?.data?.message || (typeof err.response?.data?.error === 'string' ? err.response?.data?.error : 'Authentication failed. Please try again.'));
     } finally {
       setLoading(false);
     }
