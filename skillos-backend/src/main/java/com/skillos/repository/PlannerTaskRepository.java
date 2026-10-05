@@ -13,6 +13,8 @@ public interface PlannerTaskRepository extends JpaRepository<PlannerTask, Long> 
 
     List<PlannerTask> findByUserId(Long userId);
 
+    Optional<PlannerTask> findByIdAndUserId(Long id, Long userId);
+
     List<PlannerTask> findByUserIdAndStatus(Long userId, String status);
 
     List<PlannerTask> findByUserIdAndStatusIn(Long userId, List<String> statuses);

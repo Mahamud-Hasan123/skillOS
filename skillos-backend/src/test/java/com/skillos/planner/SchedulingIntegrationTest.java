@@ -5,6 +5,7 @@ import com.skillos.entity.PlannerTask;
 import com.skillos.entity.User;
 import com.skillos.entity.UserRoutine;
 import com.skillos.repository.DailyScheduleRepository;
+import com.skillos.repository.DurationHistoryRepository;
 import com.skillos.repository.PlannerTaskRepository;
 import com.skillos.repository.UserRepository;
 import com.skillos.repository.UserRoutineRepository;
@@ -40,6 +41,9 @@ public class SchedulingIntegrationTest {
     @Autowired
     private DailyScheduleRepository dailyScheduleRepository;
 
+    @Autowired
+    private DurationHistoryRepository durationHistoryRepository;
+
     private User testUser;
     private LocalDate testDate;
 
@@ -48,7 +52,7 @@ public class SchedulingIntegrationTest {
         // 1. Create a test user
         testUser = User.builder()
                 .fullName("Test User")
-                .email("test.planner@skillos.com")
+                .email("test.planner." + java.util.UUID.randomUUID().toString() + "@skillos.com")
                 .passwordHash("hashedpassword")
                 .build();
         testUser = userRepository.save(testUser);
@@ -118,6 +122,7 @@ public class SchedulingIntegrationTest {
     public void cleanup() {
         // Cleanup all records created by the test
         dailyScheduleRepository.deleteAll();
+        durationHistoryRepository.deleteAll();
         plannerTaskRepository.deleteAll();
         userRoutineRepository.deleteAll();
         userRepository.delete(testUser);

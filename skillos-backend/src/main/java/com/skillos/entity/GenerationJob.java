@@ -35,7 +35,7 @@ public class GenerationJob {
     private User user;
 
     // What exactly the AI is supposed to generate
-    @Column(name = "job_type", nullable = false, columnDefinition = "enum('roadmap_generation','flashcard_generation')")
+    @Column(name = "job_type", nullable = false, columnDefinition = "enum('roadmap_generation','flashcard_generation','project_generation')")
     private String jobType;
 
     // Lifecycle state of the job

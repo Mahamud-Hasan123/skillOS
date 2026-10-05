@@ -71,6 +71,15 @@ public class PlannerTask {
     @Column(nullable = false, columnDefinition = "enum('pending','scheduled','in_progress','completed','skipped') DEFAULT 'pending'")
     private String status = "pending";
 
+    @OneToMany(mappedBy = "plannerTask", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<ScheduleEntry> scheduleEntries;
+
+    @OneToMany(mappedBy = "plannerTask", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<DurationHistory> durationHistories;
+
+    @OneToMany(mappedBy = "dependencyTask")
+    private java.util.List<PlannerTask> dependentTasks;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

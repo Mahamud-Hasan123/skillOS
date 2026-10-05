@@ -59,6 +59,14 @@ public class RoadmapTask {
     @Column(nullable = false, columnDefinition = "enum('pending','completed') DEFAULT 'pending'")
     private String status = "pending";
 
+    @Builder.Default
+    @Column(name = "estimated_minutes", nullable = false)
+    private Integer estimatedMinutes = 60;
+
+    @Builder.Default
+    @Column(nullable = false, columnDefinition = "enum('low','medium','high','critical') DEFAULT 'high'")
+    private String priority = "high";
+
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
 

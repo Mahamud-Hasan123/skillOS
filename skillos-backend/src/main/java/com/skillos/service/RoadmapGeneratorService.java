@@ -81,6 +81,8 @@ public class RoadmapGeneratorService {
                             .answer(taskNode.get("answer").asText())
                             .status("pending")
                             .xpReward(10) // default XP
+                            .estimatedMinutes(taskNode.has("estimatedMinutes") ? taskNode.get("estimatedMinutes").asInt() : 60)
+                            .priority(taskNode.has("priority") ? taskNode.get("priority").asText() : "high")
                             .build();
                     roadmapTaskRepository.save(task);
 

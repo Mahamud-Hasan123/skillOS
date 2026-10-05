@@ -32,7 +32,8 @@ public class PlannerTaskService {
         List<PlannerTask> tasks = plannerTaskRepository.findByUserId(userId);
 
         if (status != null) {
-            tasks = tasks.stream().filter(t -> status.equalsIgnoreCase(t.getStatus())).collect(Collectors.toList());
+            List<String> statuses = java.util.Arrays.asList(status.toLowerCase().split(","));
+            tasks = tasks.stream().filter(t -> t.getStatus() != null && statuses.contains(t.getStatus().toLowerCase())).collect(Collectors.toList());
         }
         if (priority != null) {
             tasks = tasks.stream().filter(t -> priority.equalsIgnoreCase(t.getPriority())).collect(Collectors.toList());

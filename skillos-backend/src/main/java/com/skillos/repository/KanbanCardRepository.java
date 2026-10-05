@@ -15,4 +15,7 @@ public interface KanbanCardRepository extends JpaRepository<KanbanCard, Long> {
 
     @Query("SELECT COUNT(k) FROM KanbanCard k WHERE k.column.board.user.id = :userId AND k.isDone = true AND k.updatedAt >= :startDate AND k.updatedAt <= :endDate")
     Integer countCompletedCardsByUserIdAndDateRange(@Param("userId") Long userId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+
+    @Query("SELECT k FROM KanbanCard k WHERE k.column.board.user.id = :userId AND k.isPinnedToToday = true AND k.isDone = false AND k.column.board.project.status = 'active' AND k.column.board.project.deletedAt IS NULL")
+    List<KanbanCard> findPinnedCardsByUserId(@Param("userId") Long userId);
 }

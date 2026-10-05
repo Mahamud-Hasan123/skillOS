@@ -72,4 +72,44 @@ public class KanbanController {
         KanbanCard movedCard = kanbanService.moveCard(cardId, request.getTargetColumnId(), request.getTargetOrderIndex(), user);
         return ResponseEntity.ok(movedCard);
     }
+
+    @GetMapping("/kanban/cards/pinned")
+    public ResponseEntity<List<KanbanCard>> getPinnedCards(@AuthenticationPrincipal User user) {
+        List<KanbanCard> pinnedCards = kanbanCardRepository.findPinnedCardsByUserId(user.getId());
+        return ResponseEntity.ok(pinnedCards);
+    }
+
+    @PutMapping("/kanban/cards/{cardId}/pin")
+    public ResponseEntity<KanbanCard> togglePin(
+            @PathVariable Long cardId,
+            @AuthenticationPrincipal User user) {
+        KanbanCard card = kanbanCardRepository.findById(cardId).orElse(null);
+        if (card == null || !card.getColumn().getBoard().getUser().getId().equals(user.getId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        card.setIsPinnedToToday(!card.getIsPinnedToToday());
+        kanbanCardRepository.save(card);
+        return ResponseEntity.ok(card);
+    }
+
+    @PutMapping("/kanban/cards/{cardId}")
+    public ResponseEntity<KanbanCard> updateCard(
+            @PathVariable Long cardId,
+            @AuthenticationPrincipal User user,
+            @RequestBody Map<String, String> updates) {
+        KanbanCard card = kanbanCardRepository.findById(cardId).orElse(null);
+        if (card == null || !card.getColumn().getBoard().getUser().getId().equals(user.getId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        
+        if (updates.containsKey("title")) {
+            card.setTitle(updates.get("title"));
+        }
+        if (updates.containsKey("description")) {
+            card.setDescription(updates.get("description"));
+        }
+        
+        kanbanCardRepository.save(card);
+        return ResponseEntity.ok(card);
+    }
 }

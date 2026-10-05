@@ -24,17 +24,19 @@ public class PlannerDashboardService {
     private final ScheduleEntryRepository scheduleEntryRepository;
     private final DurationHistoryRepository durationHistoryRepository;
 
-    public PlannerDashboardResponse getDashboard(Long userId) {
-        LocalDate today = LocalDate.now();
+    public PlannerDashboardResponse getDashboard(Long userId, String dateStr) {
+        LocalDate targetDate = dateStr != null && !dateStr.isEmpty() 
+            ? LocalDate.parse(dateStr) 
+            : LocalDate.now();
 
         // Today's schedule
-        PlannerDashboardResponse.TodaySchedule todaySchedule = buildTodaySchedule(userId, today);
+        PlannerDashboardResponse.TodaySchedule todaySchedule = buildTodaySchedule(userId, targetDate);
 
         // Estimate accuracy
         PlannerDashboardResponse.EstimateAccuracy accuracy = buildEstimateAccuracy(userId);
 
         // Next task
-        PlannerDashboardResponse.NextTask nextTask = buildNextTask(userId, today);
+        PlannerDashboardResponse.NextTask nextTask = buildNextTask(userId, targetDate);
 
         return PlannerDashboardResponse.builder()
                 .today(todaySchedule)
