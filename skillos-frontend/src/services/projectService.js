@@ -9,3 +9,6 @@ export const moveKanbanCard = (cardId, data) => api.put(`/kanban/cards/${cardId}
 export const getProjectGenerationStatus = (jobId) => api.get(`/projects/generate/status/${jobId}`);
 export const getProjectGanttEntries = (projectId) => api.get(`/projects/${projectId}/gantt`);
 export const deleteProject = (id) => api.delete(`/projects/${id}`);
+export const toggleKanbanCardPin = (cardId) => api.put(`/kanban/cards/${cardId}/pin`);
+export const getPinnedCards = () => api.get(`/kanban/cards/pinned`);
+export const updateKanbanCard = (cardId, data) => api.put(`/kanban/cards/${cardId}`, data);

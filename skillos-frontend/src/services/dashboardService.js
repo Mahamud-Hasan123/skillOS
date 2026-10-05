@@ -128,7 +128,8 @@ export const getDashboard = async () => {
       completed: t.status === 'completed' || t.status === 'done',
     }));
 
-    if (taskList.length === 0 && activeRoadmap) {
+    let firstUnfinishedRoadmapTask = null;
+    if (activeRoadmap) {
       try {
         const roadmapDetailsRes = await api.get(`/roadmaps/${activeRoadmap.id}`);
         const roadmapTasks = roadmapDetailsRes.data.tasks || [];
@@ -136,16 +137,20 @@ export const getDashboard = async () => {
         
         const firstUncompleted = roadmapTasks.find(t => t.status !== 'completed');
         if (firstUncompleted) {
-          upcomingTasks = [{
-            id: firstUncompleted.id,
-            title: `Day ${firstUncompleted.dayNumber}`,
-            duration: '',
-            completed: false
-          }];
+          firstUnfinishedRoadmapTask = firstUncompleted;
         }
       } catch (err) {
         console.error('Failed to fetch active roadmap tasks for upcoming tasks fallback', err);
       }
+    }
+
+    if (taskList.length === 0 && firstUnfinishedRoadmapTask) {
+      upcomingTasks = [{
+        id: firstUnfinishedRoadmapTask.id,
+        title: `Day ${firstUnfinishedRoadmapTask.dayNumber}`,
+        duration: '',
+        completed: false
+      }];
     }
 
     // ── Peers ──
@@ -182,6 +187,7 @@ export const getDashboard = async () => {
         tasksDone,
         todayFocus,
         activeRoadmap: activeRoadmapCard,
+        firstUnfinishedRoadmapTask,
         levelInfo,
         upcomingTasks,
         peers: peerItems,

@@ -245,6 +245,23 @@ export default function ProjectsPage() {
             project={activeProject} 
             columnsData={kanbanData.columns} 
             onMoveCard={handleMoveCard}
+            onTogglePin={async (cardId) => {
+              try {
+                const { toggleKanbanCardPin } = await import('../../services/projectService');
+                const res = await toggleKanbanCardPin(cardId);
+                const updatedCard = res.data;
+                setKanbanData(prev => {
+                  if (!prev) return prev;
+                  const newCols = prev.columns.map(colData => {
+                    const cards = colData.cards.map(c => c.id === cardId ? updatedCard : c);
+                    return { ...colData, cards };
+                  });
+                  return { ...prev, columns: newCols };
+                });
+              } catch(err) {
+                console.error("Failed to toggle pin", err);
+              }
+            }}
           />
         )}
 

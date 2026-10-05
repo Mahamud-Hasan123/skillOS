@@ -18,8 +18,10 @@ public class PlannerDashboardController {
     private final PlannerDashboardService plannerDashboardService;
 
     @GetMapping("/dashboard")
-    public ResponseEntity<PlannerDashboardResponse> getDashboard(@AuthenticationPrincipal User user) {
-        PlannerDashboardResponse dashboard = plannerDashboardService.getDashboard(user.getId());
+    public ResponseEntity<PlannerDashboardResponse> getDashboard(
+            @AuthenticationPrincipal User user,
+            @org.springframework.web.bind.annotation.RequestParam(required = false) String date) {
+        PlannerDashboardResponse dashboard = plannerDashboardService.getDashboard(user.getId(), date);
         return ResponseEntity.ok(dashboard);
     }
 }

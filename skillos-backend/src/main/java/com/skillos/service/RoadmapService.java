@@ -83,5 +83,16 @@ public class RoadmapService {
         task.setStatus("completed");
         task.setCompletedAt(LocalDateTime.now());
         roadmapTaskRepository.save(task);
+
+        Roadmap roadmap = task.getRoadmap();
+        List<RoadmapTask> tasks = roadmapTaskRepository.findByRoadmapId(roadmap.getId());
+        long totalTasks = tasks.size();
+        long completedTasks = tasks.stream().filter(t -> "completed".equals(t.getStatus())).count();
+        
+        if (totalTasks > 0) {
+            int percent = (int) Math.round(((double) completedTasks / totalTasks) * 100.0);
+            roadmap.setProgressPercent(percent);
+            roadmapRepository.save(roadmap);
+        }
     }
 }

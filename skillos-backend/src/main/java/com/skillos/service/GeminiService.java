@@ -199,7 +199,9 @@ public class GeminiService {
             "      \"title\": \"String (the topic and task for the day. keep the topic and task both inside this section, may use '//' between tittle and task to deifferentiate them. e.g. Learn Basics of Python // Learn about variables, operators, loops, functions.)\",\n"
             +
             "      \"question\": \"String (a flashcard question for this day)\",\n" +
-            "      \"answer\": \"String (the answer to the flashcard question)\"\n" +
+            "      \"answer\": \"String (the answer to the flashcard question)\",\n" +
+            "      \"estimatedMinutes\": Integer (e.g. 30, 45, 60),\n" +
+            "      \"priority\": \"String (must be one of: low, medium, high, critical)\"\n" +
             "    }\n" +
             "  ]\n" +
             "}\n" +
@@ -252,6 +254,42 @@ public class GeminiService {
     return callGemini(url, prompt);
   }
 
+  // Project generation using gemini
+  public String generateProjectJson(String projectName, String projectDescription, Integer deadlineDays, String skillName) {
+    String prompt = String.format(
+        "You are an expert AI Technical Project Manager. Generate a JSON project breakdown based on the following details.\n" +
+        "Project Name: %s\n" +
+        "Project Description: %s\n" +
+        "Deadline (Days): %d\n" +
+        "Target Skill: %s\n\n" +
+        "You must break down this project into sequential features (for a Gantt chart) and specific tasks (for a Kanban board).\n" +
+        "Output ONLY valid JSON in the exact structure below, with no markdown formatting or backticks:\n" +
+        "{\n" +
+        "  \"features\": [\n" +
+        "    {\n" +
+        "      \"featureName\": \"String\",\n" +
+        "      \"startDay\": Integer (0 to deadlineDays-1),\n" +
+        "      \"durationDays\": Integer (must be >= 1)\n" +
+        "    }\n" +
+        "  ],\n" +
+        "  \"tasks\": [\n" +
+        "    {\n" +
+        "      \"featureName\": \"String (must exactly match a featureName from features array)\",\n" +
+        "      \"title\": \"String (task title)\",\n" +
+        "      \"description\": \"String (detailed task description)\",\n" +
+        "      \"xpReward\": Integer (10, 20, 30 etc.),\n" +
+        "      \"estimatedMinutes\": Integer (e.g. 30, 60, 120),\n" +
+        "      \"priority\": \"String (low, medium, high, critical)\"\n" +
+        "    }\n" +
+        "  ]\n" +
+        "}",
+        projectName, projectDescription != null ? projectDescription : "N/A", deadlineDays != null ? deadlineDays : 7, skillName != null ? skillName : "N/A"
+    );
+
+    String url = "https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent";
+    return callGemini(url, prompt);
+  }
+
   private String callGemini(String url, String prompt) {
     Map<String, Object> requestBody = new HashMap<>();
     Map<String, Object> content = new HashMap<>();
@@ -259,6 +297,11 @@ public class GeminiService {
     part.put("text", prompt);
     content.put("parts", List.of(part));
     requestBody.put("contents", List.of(content));
+
+    Map<String, Object> generationConfig = new HashMap<>();
+    generationConfig.put("maxOutputTokens", 8192);
+    generationConfig.put("responseMimeType", "application/json");
+    requestBody.put("generationConfig", generationConfig);
 
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
@@ -284,9 +327,26 @@ public class GeminiService {
       }
 
       return jsonOutput.trim();
+    } catch (org.springframework.web.client.HttpStatusCodeException e) {
+      log.error("Gemini API HTTP error: {} - {}", e.getStatusCode(), e.getResponseBodyAsString(), e);
+      String errorMsg = "Gemini API Error (" + e.getStatusCode() + ")";
+      try {
+        JsonNode errNode = objectMapper.readTree(e.getResponseBodyAsString());
+        if (errNode.has("error") && errNode.path("error").has("message")) {
+          errorMsg += ": " + errNode.path("error").path("message").asText();
+        } else {
+          errorMsg += ": " + e.getResponseBodyAsString();
+        }
+      } catch (Exception parseEx) {
+        errorMsg += ": " + e.getResponseBodyAsString();
+      }
+      throw new RuntimeException(errorMsg, e);
+    } catch (org.springframework.web.client.RestClientException e) {
+      log.error("Failed to connect to Gemini API", e);
+      throw new RuntimeException("Failed to connect to Gemini API: " + e.getMessage(), e);
     } catch (Exception e) {
       log.error("Failed to parse JSON from Gemini API", e);
-      throw new RuntimeException("Failed to parse JSON from Gemini API", e);
+      throw new RuntimeException("Failed to parse JSON from Gemini API: " + e.getMessage(), e);
     }
   }
 }

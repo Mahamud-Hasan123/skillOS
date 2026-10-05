@@ -106,6 +106,56 @@ public class SchedulingService {
     }
 
     /**
+     * Resets the schedule for the given date. Deactivates the active schedule and sets
+     * all associated 'scheduled' PlannerTasks back to 'pending'.
+     */
+    @Transactional
+    public void resetSchedule(User user, LocalDate date) {
+        Optional<DailySchedule> activeSchedule = dailyScheduleRepository
+                .findByUserIdAndScheduleDateAndIsActive(user.getId(), date, true);
+        activeSchedule.ifPresent(schedule -> {
+            List<ScheduleEntry> entries = scheduleEntryRepository.findByScheduleIdOrderBySlotOrder(schedule.getId());
+            for (ScheduleEntry entry : entries) {
+                if (!"external".equals(entry.getSourceType()) && !"external".equals(entry.getPlannerTask().getSourceType())) {
+                    PlannerTask task = entry.getPlannerTask();
+                    if ("scheduled".equals(task.getStatus())) {
+                        task.setStatus("pending");
+                        plannerTaskRepository.save(task);
+                    }
+                }
+            }
+            schedule.setIsActive(false);
+            dailyScheduleRepository.save(schedule);
+        });
+    }
+
+    /**
+     * Unschedules a specific PlannerTask from today's active schedule.
+     */
+    @Transactional
+    public void unscheduleTask(User user, LocalDate date, Long plannerTaskId) {
+        // 1. Revert task status
+        PlannerTask task = plannerTaskRepository.findByIdAndUserId(plannerTaskId, user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Task not found or doesn't belong to user"));
+        if ("scheduled".equals(task.getStatus())) {
+            task.setStatus("pending");
+            plannerTaskRepository.save(task);
+        }
+
+        // 2. Remove from today's active schedule
+        Optional<DailySchedule> activeSchedule = dailyScheduleRepository
+                .findByUserIdAndScheduleDateAndIsActive(user.getId(), date, true);
+        activeSchedule.ifPresent(schedule -> {
+            List<ScheduleEntry> entries = scheduleEntryRepository.findByScheduleIdOrderBySlotOrder(schedule.getId());
+            for (ScheduleEntry entry : entries) {
+                if (entry.getPlannerTask() != null && entry.getPlannerTask().getId().equals(plannerTaskId)) {
+                    scheduleEntryRepository.delete(entry);
+                }
+            }
+        });
+    }
+
+    /**
      * Regenerate a schedule for remaining tasks only (used during rescheduling).
      * Takes the current time and only schedules tasks that haven't been completed.
      */

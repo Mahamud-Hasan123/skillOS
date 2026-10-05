@@ -16,15 +16,18 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
+  const [pinnedCards, setPinnedCards] = useState([]);
 
   useEffect(() => {
     Promise.all([
       getDashboard(),
-      getPlannerDashboard()
+      getPlannerDashboard(),
+      import('../../services/projectService').then(m => m.getPinnedCards())
     ])
-      .then(([dashboardRes, plannerRes]) => {
+      .then(([dashboardRes, plannerRes, pinnedRes]) => {
         setData(dashboardRes.data);
         setPlannerData(plannerRes);
+        setPinnedCards(pinnedRes.data || []);
       })
       .catch((err) => {
         console.warn('Dashboard fetch failed', err);
@@ -46,6 +49,7 @@ export default function DashboardPage() {
     greeting,
     targetGoal,
     activeRoadmap,
+    firstUnfinishedRoadmapTask,
   } = data;
 
   const getUpcomingTasks = () => {
@@ -54,10 +58,7 @@ export default function DashboardPage() {
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
     return plannerData.today.entries.filter(entry => {
-      if (entry.status === 'completed') return false;
-      const [eh, em] = entry.endTime.split(':');
-      const endMinutes = parseInt(eh) * 60 + parseInt(em);
-      return endMinutes > currentMinutes; // Upcoming or currently active
+      return entry.status !== 'completed' && entry.status !== 'skipped';
     }).slice(0, 4);
   };
   const upcomingPlannerTasks = getUpcomingTasks();
@@ -86,6 +87,42 @@ export default function DashboardPage() {
 
         {/* ── MIDDLE CARDS ROW ── */}
         <div className={styles.middleCardsRow}>
+          {/* Today's Focus (Pinned Cards) */}
+          <div className={styles.cardBox}>
+            <div className={styles.cardHeader}>
+              <span className={styles.cardIcon}>📌</span>
+              <span>TODAY'S FOCUS</span>
+            </div>
+            {pinnedCards.length === 0 && !firstUnfinishedRoadmapTask ? (
+              <p className={styles.roadmapSubtitle}>Pin tasks from your projects to focus on them today.</p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '12px' }}>
+                {firstUnfinishedRoadmapTask && (
+                  <div className={styles.pinnedTaskItem} onClick={() => navigate('/roadmaps')}>
+                    <div className={styles.upcomingTaskInfo}>
+                      <div className={styles.upcomingTaskTitle}>
+                        Day {firstUnfinishedRoadmapTask.dayNumber}: {firstUnfinishedRoadmapTask.title.split('//')[0].trim()}
+                      </div>
+                      <div className={styles.upcomingTaskBadge} style={{ background: '#fef3c7', color: '#d97706' }}>
+                        Roadmap Module
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {pinnedCards.map(card => (
+                  <div key={card.id} className={styles.pinnedTaskItem} onClick={() => navigate('/projects')}>
+                    <div className={styles.upcomingTaskInfo}>
+                      <div className={styles.upcomingTaskTitle}>{card.title}</div>
+                      <div className={styles.upcomingTaskBadge} style={{ background: '#ede9fe', color: '#5b21b6' }}>
+                        Project Task
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
           {/* Active Roadmap */}
           <div className={styles.cardBox}>
             <div className={styles.cardHeader}>

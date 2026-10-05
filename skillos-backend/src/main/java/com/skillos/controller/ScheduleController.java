@@ -58,6 +58,17 @@ public class ScheduleController {
     }
 
     /**
+     * Reset the schedule for a given date.
+     */
+    @DeleteMapping("/{date}/reset")
+    public ResponseEntity<Void> resetSchedule(
+            @AuthenticationPrincipal User user,
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        schedulingService.resetSchedule(user, date);
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
      * Get all schedule versions (revision history) for a given date.
      */
     @GetMapping("/{date}/history")
@@ -70,6 +81,18 @@ public class ScheduleController {
                 .map(this::toResponse)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(Map.of("data", responses));
+    }
+
+    /**
+     * Unschedule a specific PlannerTask from today's schedule.
+     */
+    @DeleteMapping("/{date}/tasks/{plannerTaskId}/unschedule")
+    public ResponseEntity<Void> unscheduleTask(
+            @AuthenticationPrincipal User user,
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @PathVariable Long plannerTaskId) {
+        schedulingService.unscheduleTask(user, date, plannerTaskId);
+        return ResponseEntity.noContent().build();
     }
 
     // --- Execution tracking endpoints ---

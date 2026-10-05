@@ -7,7 +7,7 @@ export const getPlannerDashboard = async (date) => {
   const dateStr = date || new Date().toISOString().split('T')[0];
   const [dashboardRes, tasksRes] = await Promise.all([
     api.get(`/planner/dashboard?date=${dateStr}`),
-    api.get('/planner/tasks?status=pending')
+    api.get('/planner/tasks?status=pending,scheduled')
   ]);
   
   return {
@@ -23,6 +23,22 @@ export const generateSchedule = async (date) => {
   const dateStr = date || new Date().toISOString().split('T')[0];
   const response = await api.post('/planner/schedule/generate', { date: dateStr });
   return response.data;
+};
+
+/**
+ * Reset schedule for a specific date
+ */
+export const resetSchedule = async (date) => {
+  const dateStr = date || new Date().toISOString().split('T')[0];
+  await api.delete(`/planner/schedule/${dateStr}/reset`);
+};
+
+/**
+ * Unschedule a specific task
+ */
+export const unscheduleTask = async (taskId, date) => {
+  const dateStr = date || new Date().toISOString().split('T')[0];
+  await api.delete(`/planner/schedule/${dateStr}/tasks/${taskId}/unschedule`);
 };
 
 /**

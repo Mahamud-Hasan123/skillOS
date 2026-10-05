@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import DashboardLayout from '../../layouts/DashboardLayout';
-import { getPlannerDashboard, generateSchedule, updateProfile, createTask, createRoutine, getRoutines, deleteRoutine, updateTask, deleteTask, startEntry, completeEntry } from '../../services/plannerService';
+import { getPlannerDashboard, generateSchedule, resetSchedule, unscheduleTask, updateProfile, createTask, createRoutine, getRoutines, deleteRoutine, updateTask, deleteTask, startEntry, completeEntry } from '../../services/plannerService';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/useAuth';
 import styles from './PlannerPage.module.css';
@@ -111,6 +111,22 @@ export default function PlannerPage() {
       })
       .catch(err => alert("Failed to generate schedule. Make sure you have free time blocks set up!"))
       .finally(() => setGenerating(false));
+  };
+
+  const handleResetSchedule = () => {
+    if (!window.confirm("Are you sure you want to completely reset today's schedule? All generated slots will be removed and tasks will be returned to the backlog.")) return;
+    setGenerating(true);
+    resetSchedule()
+      .then(() => fetchDashboard())
+      .catch(err => alert("Failed to reset schedule."))
+      .finally(() => setGenerating(false));
+  };
+
+  const handleUnscheduleTask = (e, taskId) => {
+    e.stopPropagation();
+    unscheduleTask(taskId)
+      .then(() => fetchDashboard())
+      .catch(err => alert("Failed to unschedule task."));
   };
 
   const handleConnectGoogle = () => {
@@ -295,75 +311,114 @@ export default function PlannerPage() {
             </p>
           </div>
 
-          <button 
-            className={styles.generateBtn}
-            onClick={handleGenerate}
-            disabled={generating}
-          >
-            {generating ? (
-              <>
-                <svg className={styles.generatingIcon} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="12" y1="2" x2="12" y2="6"></line>
-                  <line x1="12" y1="18" x2="12" y2="22"></line>
-                  <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
-                  <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
-                  <line x1="2" y1="12" x2="6" y2="12"></line>
-                  <line x1="18" y1="12" x2="22" y2="12"></line>
-                  <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
-                  <line x1="16.24" y1="4.93" x2="19.07" y2="7.76"></line>
-                </svg>
-                AI Scheduling...
-              </>
-            ) : (
-              <>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                  <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                </svg>
-                Generate Schedule
-              </>
-            )}
-          </button>
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
+            <button 
+              className={styles.generateBtn}
+              onClick={handleGenerate}
+              disabled={generating}
+              style={{ flex: 1, marginBottom: 0 }}
+            >
+              {generating ? (
+                <>
+                  <svg className={styles.generatingIcon} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="12" y1="2" x2="12" y2="6"></line>
+                    <line x1="12" y1="18" x2="12" y2="22"></line>
+                    <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                    <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                    <line x1="2" y1="12" x2="6" y2="12"></line>
+                    <line x1="18" y1="12" x2="22" y2="12"></line>
+                    <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                    <line x1="16.24" y1="4.93" x2="19.07" y2="7.76"></line>
+                  </svg>
+                  AI Scheduling...
+                </>
+              ) : (
+                <>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                  </svg>
+                  Generate Schedule
+                </>
+              )}
+            </button>
+            <button
+              className={styles.resetBtn}
+              onClick={handleResetSchedule}
+              disabled={generating}
+              title="Reset Schedule"
+              style={{ 
+                padding: '0 16px', 
+                background: 'var(--bg-dash)', 
+                border: '1px solid var(--border-dash)', 
+                borderRadius: 'var(--radius)', 
+                cursor: 'pointer', 
+                color: 'var(--text-secondary)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseOver={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
+              onMouseOut={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                <polyline points="3 3 3 8 8 8"></polyline>
+              </svg>
+            </button>
+          </div>
 
           <div className={styles.tasksListContainer}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
               <h3 className={styles.tasksHeader} style={{ margin: 0 }}>Pending Backlog</h3>
             </div>
 
-            <div className={styles.taskInputContainer}>
-              <input 
-                type="text" 
-                className={styles.taskInput} 
-                placeholder="Add a new task..." 
-                value={newTaskTitle}
-                onChange={e => setNewTaskTitle(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && handleAddTask()}
-              />
-              <input 
-                type="number" 
-                className={styles.taskTimeInput} 
-                value={newTaskTime}
-                onChange={e => setNewTaskTime(e.target.value)}
-                min="1"
-                title="Minutes"
-              />
-              <select 
-                className={styles.taskPrioritySelect}
-                value={newTaskPriority}
-                onChange={e => setNewTaskPriority(e.target.value)}
-                title="Priority"
-              >
-                <option value="low">Low</option>
-                <option value="medium">Med</option>
-                <option value="high">High</option>
-                <option value="critical">Crit</option>
-              </select>
+            <div className={styles.taskInputContainer} style={{ alignItems: 'flex-end' }}>
+              <div style={{ flexGrow: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <label style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 600, whiteSpace: 'nowrap' }}>Task Name</label>
+                <input 
+                  type="text" 
+                  className={styles.taskInput} 
+                  placeholder="Add a new task..." 
+                  value={newTaskTitle}
+                  onChange={e => setNewTaskTitle(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && handleAddTask()}
+                  style={{ width: '100%', flex: 'none', boxSizing: 'border-box' }}
+                />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <label style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 600, whiteSpace: 'nowrap' }}>Mins</label>
+                <input 
+                  type="number" 
+                  className={styles.taskTimeInput} 
+                  value={newTaskTime}
+                  onChange={e => setNewTaskTime(e.target.value)}
+                  min="1"
+                  title="Minutes"
+                />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <label style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 600, whiteSpace: 'nowrap' }}>Priority</label>
+                <select 
+                  className={styles.taskPrioritySelect}
+                  value={newTaskPriority}
+                  onChange={e => setNewTaskPriority(e.target.value)}
+                  title="Priority"
+                >
+                  <option value="low">Low</option>
+                  <option value="medium">Med</option>
+                  <option value="high">High</option>
+                  <option value="critical">Crit</option>
+                </select>
+              </div>
               <button 
                 className={styles.taskAddBtn} 
                 onClick={handleAddTask}
                 disabled={addingTask || !newTaskTitle.trim()}
                 title="Quick Add"
+                style={{ height: '39px' }}
               >
                 +
               </button>
@@ -381,6 +436,7 @@ export default function PlannerPage() {
                   setShowTaskModal(true);
                 }}
                 title="Advanced Options"
+                style={{ height: '39px' }}
               >
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M15 3h6v6"></path>
@@ -396,12 +452,33 @@ export default function PlannerPage() {
             ) : (
               pendingTasks.map(task => (
                 <div key={task.id} className={styles.taskItem} onClick={() => handleEditTask(task)}>
-                  <span className={styles.taskTitle}>{task.title}</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <span className={styles.taskTitle}>{task.title}</span>
+                    {task.status === 'scheduled' && (
+                      <span style={{ fontSize: '0.65rem', color: 'var(--brand-primary)', fontWeight: 600, letterSpacing: '0.5px' }}>ON TIMELINE</span>
+                    )}
+                  </div>
                   <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                     <span className={`${styles.taskPriorityBadge} ${styles['priority-' + (task.priority || 'medium').toLowerCase()]}`}>
                       {task.priority || 'medium'}
                     </span>
                     <span className={styles.taskDuration}>{task.estimatedMinutes}m</span>
+                    {task.status === 'scheduled' && (
+                      <button 
+                        className={styles.taskDeleteBtn} 
+                        onClick={(e) => handleUnscheduleTask(e, task.id)}
+                        title="Unschedule Task"
+                        style={{ color: 'var(--brand-primary)' }}
+                      >
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M3 3l18 18"></path>
+                          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                          <line x1="16" y1="2" x2="16" y2="6"></line>
+                          <line x1="8" y1="2" x2="8" y2="6"></line>
+                          <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                      </button>
+                    )}
                     <button 
                       className={styles.taskDeleteBtn} 
                       onClick={(e) => handleDeleteTask(e, task.id)}

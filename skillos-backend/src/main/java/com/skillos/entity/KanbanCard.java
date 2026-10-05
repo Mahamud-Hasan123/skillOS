@@ -41,6 +41,9 @@ public class KanbanCard {
     @Column(name = "project_task_id")
     private Long projectTaskId;
 
+    @Column(name = "feature_name")
+    private String featureName;
+
     @Column(nullable = false, length = 255)
     private String title;
 
@@ -57,6 +60,11 @@ public class KanbanCard {
     // Flag set to true when the card is moved to the "Done" column
     @Column(name = "is_done", nullable = false)
     private Boolean isDone = false;
+
+    // Flag set to true if the user pins this task to their daily planner
+    @Column(name = "is_pinned_to_today", nullable = false)
+    @Builder.Default
+    private Boolean isPinnedToToday = false;
 
     // Soft delete timestamp
     @Column(name = "deleted_at")

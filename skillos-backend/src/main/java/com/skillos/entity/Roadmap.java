@@ -55,6 +55,9 @@ public class Roadmap {
     @OneToMany(mappedBy = "roadmap", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RoadmapTask> tasks;
 
+    @OneToMany(mappedBy = "roadmap", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Note> notes;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
